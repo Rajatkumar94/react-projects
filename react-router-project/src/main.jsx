@@ -9,12 +9,24 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import Home from "./components/Home/Home.jsx";
+import { Home, About, Contact, Param, GitInfo } from "./components";
 
-const routes = createBrowserRouter(
+const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="home" element={<Home />} />
+      <Route path="" element={<Home />} />
+      <Route path="about" element={<About />} />
+      <Route path="contact" element={<Contact />} />
+      <Route path="param/:num" element={<Param />} />
+      <Route
+        loader={async () => {
+          const response = await fetch("https://api.github.com/users/hiteshchoudhary");
+          const response_1 = await response.json();
+          return response_1.followers;
+        }}
+        path="gitInfo"
+        element={<GitInfo />}
+      />
     </Route>
   )
 );
