@@ -3,11 +3,16 @@ import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
 import "tailwindcss/tailwind.css";
+import Header from "./components/Header/Header";
+import { Outlet } from "react-router-dom";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   return (
     <>
-      <h1 class="text-3xl bg-green-600 font-bold underline">Hello world!</h1>
+      <Header />
+      <Outlet />
+      <Footer />
     </>
   );
 }
