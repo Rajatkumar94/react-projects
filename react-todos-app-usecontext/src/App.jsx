@@ -1,54 +1,56 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import CardForm from "./components/CardForm";
+import TodoForm from "./components/TodoForm";
 import TodoItem from "./components/TodoItem";
 import { TodoContextProvider } from "./contexts/TodoContext";
 
 function App() {
-  // const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([]);
 
-  // function addTodo(todo) {
-  //   setTodos([...todos, { id: 1, ...todo }]);
-  // }
+  let addTodo = (todoItems) => {
+    setTodos([todoItems, ...todos]);
+  };
 
-  // function updateTodo(id, todo) {
-  //   const updateTodo = todos.map((todo) => todo.id === id);
-  //   console.log(updateTodo);
-  //   setTodos([...todos, updateTodo && todo]);
-  // }
+  let updateTodo = (id, todo) => {
+    setTodos((prev) =>
+      prev.map((prevItem) => (prevItem.id == id ? todo : prevItem))
+    );
+  };
 
-  // function deleteTodo(id) {
-  //   const deleteTodo = todos.filter((todo) => todo.id !== id && true);
-  //   setTodos(deleteTodo);
-  // }
+  let deleteTodo = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
 
-  // function toggleComplete(id) {
-  //   setTodos((prev) =>
-  //     prev.map((prevTodoItem) =>
-  //       prevTodoItem.id === id
-  //         ? { ...prevTodoItem, completed: !prevTodoItem.completed }
-  //         : prevTodoItem
-  //     )
-  //   );
-  // }
+  let toggleComplete = (id) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
 
-  // useEffect(() => {
-  //   const todo = JSON.parse(localStorage.getItem("todos"));
+  useEffect(() => {
+    const todos = JSON.parse(localStorage.getItem("todos"));
 
-  //   if (todos && todos.length > 0) {
-  //     setTodos(todos);
-  //   }
-  // }, []);
+    if (todos && todos.length > 0) {
+      setTodos(todos);
+    }
+  }, []);
 
-  // useEffect(() => {
-  //   localStorage.setItem("todos", JSON.stringify(todos));
-  // }, [todos]);
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+    console.log("effects", todos);
+  }, [todos]);
 
   return (
-    <>
-      <CardForm />
-      <TodoItem />
-    </>
+    <TodoContextProvider
+      value={{ todos, addTodo, updateTodo, deleteTodo, toggleComplete }}
+    >
+      <TodoForm />
+      {todos.map((todo) => (
+        <TodoItem key={todo.id} todo={todo} />
+      ))}
+    </TodoContextProvider>
   );
 }
 

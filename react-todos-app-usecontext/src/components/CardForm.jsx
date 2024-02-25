@@ -6,19 +6,21 @@ function CardForm() {
   const [todos, setTodos] = useState([]);
   const [todoItem, setTdodoItem] = useState("");
 
-  let addTodo = () => {
-    e.preventDefault();
-    setTodos((prev) => {
-      [
-        ...prev,
-        {
-          id: uuidv4(),
-          todo: todoItem,
-          completed: false,
-        },
-      ];
-    });
+  function add(e) {
+    // e.preventDefault();
+    addTodoItem(todoItem);
     setTdodoItem("");
+  }
+
+  let addTodo = (todoItems) => {
+    setTodos((prev)=>[
+      ...prev,
+      {
+        id: uuidv4(),
+        todo: "hhhhh",
+        completed: false,
+      },
+    ]);
   };
 
   let updateTodo = (id, todo) => {
